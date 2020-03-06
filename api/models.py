@@ -5,23 +5,39 @@ from django.contrib.auth.models import User
 
 class Book(models.Model):
     title = models.CharField(max_length=500)
-    author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     description = models.TextField(null=True, blank=True)
-    # category
-    favorite = models.BooleanField(default=False)
-    read = models.BooleanField(default=False)
-    own = models.BooleanField(default=False)
     notes = models.TextField(null=True, blank=True)
+    authors = models.ManyToManyField('Author', related_name='books')
+    categories = models.ManyToManyField('Category', related_name='books')
+
+    class JSONAPIMeta:
+        resource_name = "books"
 
 
 class Author(models.Model):
-    first = models.CharField(max_length=100, null=True, blank=True)
-    last = models.CharField(max_length=100,  null=True, blank=True)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100,  null=True, blank=True)
+
+    class JSONAPIMeta:
+        resource_name = "authors"
 
 
-# class Favorite(models.Model):
-#    book = models.ForeignKey('Book', on_delete=models.SET_NULL)
-#    user = models.ForeignKey('User', on_delete=models.SET_NULL)
+class Favorite(models.Model):
+    book = models.ForeignKey('Book', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class JSONAPIMeta:
+        resource_name = "favorites"
+
+
+class Read(models.Model):
+    book = models.ForeignKey('Book', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class Own(models.Model):
+    book = models.ForeignKey('Book', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Category(models.Model):

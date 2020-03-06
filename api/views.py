@@ -8,11 +8,11 @@ from api.serializers import BookSerializer, AuthorSerializer, CategorySerializer
 from rest_framework_json_api.views import RelationshipView
 
 
-class BookRelationShipView(RelationshipView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    resource_name = 'books'
-    # permission_classes = [permissions.IsAuthenticated]
+# class BookRelationShipView(RelationshipView):
+#     queryset = Book.objects.all()
+#     serializer_class = BookSerializer
+#     resource_name = 'book'
+#     # permission_classes = [permissions.IsAuthenticated]
 
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -21,7 +21,6 @@ class BookViewSet(viewsets.ModelViewSet):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    resource_name = 'books'
     # permission_classes = [permissions.IsAuthenticated]
 
 
@@ -30,7 +29,6 @@ class AuthorViewSet(viewsets.ModelViewSet):
     API endpoint that allows groups to be viewed or edited.
 
     """
-    resource_name = 'authors'
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     # permission_classes = [permissions.IsAuthenticated]
