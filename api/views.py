@@ -15,20 +15,24 @@ from rest_framework_json_api.views import RelationshipView
 #     # permission_classes = [permissions.IsAuthenticated]
 
 
+class AuthorViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that for the Author models.
+
+    """
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+
 class BookViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint for the Book models.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
 
-class AuthorViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-
-    """
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+class BookRelationshipView(RelationshipView):
+    queryset = Book.objects
