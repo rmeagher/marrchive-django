@@ -8,11 +8,16 @@ from api.serializers import BookSerializer, AuthorSerializer, CategorySerializer
 from rest_framework_json_api.views import RelationshipView
 
 
-# class BookRelationShipView(RelationshipView):
-#     queryset = Book.objects.all()
-#     serializer_class = BookSerializer
-#     resource_name = 'book'
-#     # permission_classes = [permissions.IsAuthenticated]
+class BookRelationshipView(RelationshipView):
+    queryset = Book.objects
+    self_link_view_name = 'book-relationships'
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+class AuthorRelationshipView(RelationshipView):
+    queryset = Author.objects
+    self_link_view_name = 'author-relationships'
+    # permission_classes = [permissions.IsAuthenticated]
 
 
 class AuthorViewSet(viewsets.ModelViewSet):
@@ -32,7 +37,3 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     # permission_classes = [permissions.IsAuthenticated]
-
-
-class BookRelationshipView(RelationshipView):
-    queryset = Book.objects

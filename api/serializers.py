@@ -5,31 +5,42 @@ from rest_framework_json_api.relations import ResourceRelatedField
 from api.models import Book, Author, Category
 
 
-class AuthorSerializer(serializers.ModelSerializer):
+class AuthorSerializer(serializers.HyperlinkedModelSerializer):
     included_serializers = {'books': 'api.serializers.BookSerializer'}
 
     class Meta:
         model = Author
-        fields = ['id', 'url', 'first_name', 'last_name']
+        fields = "__all__"
         extra_kwargs = {'books': {'required': False}}
+    books = ResourceRelatedField(
+        model=Book,
+        queryset=Book.objects.all(),
+        many=True,
+        required=False,
+        related_link_view_name='author-related',
+        related_link_url_kwarg='pk',
+        self_link_view_name='author-relationships'
+    )
 
 
 class BookSerializer(serializers.HyperlinkedModelSerializer):
-    included_serializers = {'authors': AuthorSerializer}
-    authors = AuthorSerializer(many=True, read_only=True)
+
+    # authors = AuthorSerializer(many=True, read_only=True)
+    included_serializers = {'authors': 'api.serializers.AuthorSerializer'}
 
     class Meta:
         model = Book
-        authors = ResourceRelatedField(
-            queryset=Author.objects,
-            many=True,
-            related_link_view_name='book-author-detail',
-            related_link_url_kwarg='author_pk',
-            self_link_view_name='book-relationships'
-
+        fields = "__all__"
+        extra_kwargs = {'authors': {'required': False}}
+    authors = ResourceRelatedField(
+        model=Author,
+        queryset=Author.objects.all(),
+        many=True,
+        required=False,
+        related_link_view_name='book-related',
+        related_link_url_kwarg='pk',
+        self_link_view_name='book-relationships'
         )
-        fields = ['id', 'url', 'title', 'authors', 'description', 'notes']
-        extra_kwargs = {'books': {'required': False}}
 
     # class JSONAPIMeta:
     #     this is only needed if you want the resource to be included by default
