@@ -2,10 +2,9 @@ from django.shortcuts import render
 
 from django.contrib.auth.models import User, Group
 from api.models import Author, Book
-from rest_framework import viewsets
 from rest_framework import permissions
 from api.serializers import BookSerializer, AuthorSerializer, CategorySerializer
-from rest_framework_json_api.views import RelationshipView
+from rest_framework_json_api.views import ModelViewSet, RelationshipView
 
 
 class BookRelationshipView(RelationshipView):
@@ -20,7 +19,7 @@ class AuthorRelationshipView(RelationshipView):
     # permission_classes = [permissions.IsAuthenticated]
 
 
-class AuthorViewSet(viewsets.ModelViewSet):
+class AuthorViewSet(ModelViewSet):
     """
     API endpoint that for the Author models.
 
@@ -30,7 +29,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.IsAuthenticated]
 
 
-class BookViewSet(viewsets.ModelViewSet):
+class BookViewSet(ModelViewSet):
     """
     API endpoint for the Book models.
     """

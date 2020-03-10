@@ -5,9 +5,9 @@ from django.contrib.auth.models import User, AbstractUser
 # Create your models here.
 
 # class CustomUser(AbstractUser):
-#     favorites = models.ManyToManyField('Book', related_name='user_favorites')
-#     read = models.ManyToManyField('Book', related_name='user_favorites')
-#     owns = models.ManyToManyField('Book', related_name='user_favorites')
+#     favorite_books = models.ManyToManyField('Book', related_name='user_favorites')
+#     read_books = models.ManyToManyField('Book', related_name='users_have_read')
+#     owned_books = models.ManyToManyField('Book', related_name='users_own')
 
 
 class Book(models.Model):
@@ -29,24 +29,9 @@ class Author(models.Model):
         resource_name = "authors"
 
 
-# class Favorite(models.Model):
-#     book = models.ForeignKey('Book', on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#
-#     class JSONAPIMeta:
-#         resource_name = "favorites"
-#
-#
-# class Read(models.Model):
-#     book = models.ForeignKey('Book', on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#
-#
-# class Own(models.Model):
-#     book = models.ForeignKey('Book', on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
 class Category(models.Model):
-    title = models.CharField(max_length=500)
+    name = models.CharField(max_length=500)
     description = models.TextField(null=True, blank=True)
+
+    class JSONAPIMeta:
+        resource_name = "Categories"
